@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="crossorigin=""></script>
+
+    <title></title>
+</head>
+
+<body>
+    {% extends 'base.html' %}
+    {% block content %}
+    <div id="map" style="width: 100%; height: 70vh;"></div>
+    <script>
+        const themap = L.map('map').setView([ 43, -85], 7);
+        L.tileLayer('https://stamen-tiles-{s}.a.ssl.fastly.net/toner/{z}/{x}/{y}.{ext}', {
+        attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+        subdomains: 'abcd', minZoom: 1, maxZoom: 18, ext: 'png' }).addTo(themap);
+            
+    </script>
+    <h1>STATIONS</h1>
+    {% for station in object_list %}
+        <script>
+        console.log('WHAT THA');
+        var popUp = '<h5>{{station.label}}</h5>id: <b>{{station.site_id}}</b> - air quality: <b>{{station.aqitext}}</b><br/>pm2.5: <b>{{station.pm2_5value}}</b> - aqi: <b>{{station.aqi}}</b>';
+        L.marker([ {{ station.geom.y }},{{ station.geom.x }}]).addTo(themap).bindPopup(popUp);
+        </script>
+        
+        <li> <a href ="{% url 'station-detail' station.pk %}"><b>{{ station.site_id }}</b></a>  - name: <b>{{ station.label }}</b> - PM2.5: <b>{{ station.pm2_5value }}</b> 
+        - AQI: <b>{{ station.aqi }}</b> - AQI desc: <b>{{ station.aqitext }}</b> - WiFiSignal: <b>{{ station.wifisignal }}</b> - version: <b>{{ station.version }}</b> - geom: <b>{{ station.geom }}</b> 
+        </br>- AQI 1 hr: <b>{{ station.aqi }}</b> - 1 hr desc: <b>{{ station.aqitext }}</b>- PM2.5 1 hr: <b>{{ station.pm2_5_1hour }}</b> - AQI 1hr: <b>{{ station.aqi1hour }}</b>- PM2.5 24hr: <b>{{station.pm2_5_24hour}}</b> - AQI 24hr: <b>{{ station.aqi24hour }}</b> - 
+        <a href="{% url 'update_station' station.pk %}"><small>(Edit)</small></a>
+        <a href="{% url 'delete_station' station.pk %}"><small>(Delete)</small></a> 
+        </li>
+        
+    {% endfor %}
+    {% endblock %}
+</body>
+</html>

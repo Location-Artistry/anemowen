@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="crossorigin=""></script>
+    <style>
+        .info {
+            padding: 6px 8px;
+            font: 14px/16px Arial, Helvetica, sans-serif;
+            background: white;
+            background: rgba(255,255,255,0.8);
+            box-shadow: 0 0 15px rgba(0,0,0,0.2);
+            border-radius: 5px;
+        }
+        .info h4 {
+            margin: 0 0 5px;
+            color: #777;
+        }
+        </style>
+</head>
+<body>
+    {% extends 'base.html' %}
+    {% block title %} {{ object.label }} {% endblock %}
+    {% block content %}
+    <div id="map" style="width: 100%; height: 70vh;"></div>
+    <script>
+        const themap = L.map('map').setView([ {{ object.geom.y }},{{ object.geom.x }}], 9); 
+        const popUp = '<h5>{{object.label}}</h5>id: <b>{{object.site_id}}</b> - air quality: <b>{{object.aqitext}}</b><br/>pm2.5: <b>{{object.pm2_5value}}</b> - aqi: <b>{{object.aqi}}</b>';
+        
+        let info = L.control();
+  info.onAdd = function (map) {
+    this._div = L.DomUtil.create('div', 'info'); // create a div with a class "info"
+    this.update();
+    return this._div;
+  };
+  // method that we will use to update the control based on feature properties passed
+  info.update = function (props) {
+    this._div.innerHTML = '<h4>PROPERTY KEY:</h4>' +  (props ?
+      '<b>'+props.mblr+'</b><br />'+ parseFloat(props.hgt_median_m).toFixed(3) +' meters tall<br />'+
+      'SF Build ID: ' + props.sf16_bldgid : 'Hover over a building')};
+  info.addTo(themap);
+
+        L.tileLayer('https://stamen-tiles-{s}.a.ssl.fastly.net/toner/{z}/{x}/{y}.{ext}', {
+        attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+        subdomains: 'abcd', minZoom: 1, maxZoom: 18, ext: 'png' }).addTo(themap);
+        L.marker([ {{ object.geom.y }},{{ object.geom.x }}]).addTo(themap).bindPopup(popUp).openPopup();
+
+        
+    </script>
+    
+
+    <h1>{{ object.label }} </h1>
+      <li>id: <b>{{ object.site_id }}</b> - name: <b>{{ object.label }}</b> - PM2.5: <b>{{ object.pm2_5value }}</b> 
+        - AQI: <b>{{ object.aqi }}</b> - AQI desc: <b>{{ object.aqitext }}</b> - WiFiSignal: <b>{{ object.wifisignal }}</b> - version: <b>{{ object.version }}</b> - geom: <b>{{ object.geom }}</b> 
+        </br>- AQI 1 hr: <b>{{ object.aqi }}</b> - 1 hr desc: <b>{{ object.aqitext }}</b>- PM2.5 1 hr: <b>{{ object.pm2_5_1hour }}</b> - AQI 1hr: <b>{{ object.aqi1hour }}</b>- PM2.5 24hr: <b>{{object.pm2_5_24hour}}</b> - AQI 24hr: <b>{{ object.aqi24hour }}</b>
+        <a href="{% url 'update_station' object.pk %}"><small>(Edit)</small></a>
+        <a href="{% url 'delete_station' object.pk %}"><small>(Delete)</small></a> 
+    </li>
+
+    <a href="{% url 'home' %}" class="btn btn-secondary">BACK </a>
+    {% endblock %}
+</body>
+</html>

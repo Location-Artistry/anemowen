@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="crossorigin=""></script>
+
+    <title></title>
+</head>
+
+<body>
+    {% extends 'base.html' %}
+    {% block content %}
+    <div id="map" style="width: 100%; height: 70vh;"></div>
+    <script>
+        const themap = L.map('map').setView([ 43, -85], 7);
+        L.tileLayer('https://stamen-tiles-{s}.a.ssl.fastly.net/toner/{z}/{x}/{y}.{ext}', {
+        attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+        subdomains: 'abcd', minZoom: 1, maxZoom: 18, ext: 'png' }).addTo(themap);
+        //var params = JSON.parse({{response|safe}});
+
+        const gageStyle = (feature) => {
+            const d = feature.properties.AQI;
+            const gColor = d > 400 ? 'red' : d > 300  ? 'redorange' : d > 40 ? 'orange' : d > 30 ? 'yellow' : d > 20 ? 'lightgreen' : d > 10 ? 'green' : d > 5 ? 'darkgreen': 'grey';
+            return { radius: 15, fillColor: gColor, color: "grey", weight: 3, fillOpacity: 0.8};
+        };
+        function staPop (feature, layer) { 
+            const p = feature.properties;
+            layer.bindPopup(`<h3>${p.label}</h3>
+            <ul><li>ID: <b>${p.ID} </b></li>
+            <li>CurrentAQI: <b>${p.AQIText} </b></li>
+            <li>AQI#: <b>${p.AQI} </b></li>
+            <li>PM2.5: <b>${p.PM2_5Value}</b></li>
+            <li>Time Since Seen: <b>${p.dayHourMinSecSinceSeen}</b></li>`).on({ mouseover: highlightFeature,mouseout: resetHighlight,click: zoomToFeature })};
+        
+        // Highlight features on mouseOver
+        const highlightFeature = (e) => {
+            const layer = e.target;
+            layer.setStyle({ weight: 4, color: '#32cfb1', dashArray: '', fillOpacity: 0.6 });
+            layer.bringToFront();
+            info.update(layer.feature.properties);
+        };
+        const resetHighlight = (e) => {
+            layer1.resetStyle(e.target);
+            info.update();
+            };
+        // zoom to feature onClick
+        const zoomToFeature = (e) => themap.fitBounds(e.target.getBounds());
+        
+        let info = L.control();
+  
+        info.onAdd = function (map) {
+            this._div = L.DomUtil.create('div', 'info'); // create a div with a class "info"
+            this.update();
+            return this._div;
+        };
+        // method that we will use to update the control based on feature properties passed
+        info.update = function (props) {
+            this._div.innerHTML = '<h4>STATION STATUS:</h4>' +  (props ?
+            '<b>'+props.status +'</b><br />'+ props.info + '<br />' + props.stationInfo.siteFlow + ' ft3/s' + ' - ' + props.stationInfo.gageHeight + ' ft ' + ' - ' + ' ID: ' + props.ID: 'Hover over a station')};
+        info.addTo(themap);
+
+        const layer1 = L.geoJSON({{ response|safe }}, {style: gageStyle, onEachFeature: staPop, pointToLayer: function (feature, latlng) { return L.circleMarker(latlng)} }).addTo(themap);
+       
+            
+    </script>
+    <h1>STATIONS</h1>
+    {% for station in response.features %}
+        <script>
+        console.log('WHAT THA');
+        //var popUp = '<h5>{{station.properties.label}}</h5>id: <b>{{station.properties.ID}}</b> - air quality: <b>{{station.properties.aqitext}}</b><br/>pm2.5: <b>{{station.properties.pm2_5value}}</b> - aqi: <b>{{station.properties.aqi}}</b>';
+        //L.marker([ {{ station.geometry.coordinates.1 }},{{ station.geometry.coordinates.0 }}]).addTo(themap).bindPopup(popUp);
+        </script>
+        
+        <li> <b>{{ station.properties.ID }}</b>  - name: <b>{{ station.properties.label }}</b> - PM2.5: <b>{{ station.properties.PM2_5Value }}</b> 
+        - AQI: <b>{{ station.properties.AQI }}</b> - AQI desc: <b>{{ station.properties.AQIText }}</b> - WiFiSignal: <b>{{ station.properties.WiFisignal }}</b> - version: <b>{{ station.properties.version }}</b> - geom: <b>{{ station.geometry.coordinates }}</b> 
+        </br>- AQI 1 hr: <b>{{ station.properties.AQI1Hour }}</b> - 1 hr desc: <b>{{ station.properties.AQI1HourText }}</b>- PM2.5 1 hr: <b>{{ station.properties.PM2_5_1hour }}</b> - AQI 24hr: <b>{{ station.properties.AQI24Hour }}</b>- PM2.5 24hr: <b>{{station.properties.PM2_5_24hour}}</b> - AQI 24hr: <b>{{ station.properties.AQI24Hour }}</b>  
+      
+        </li>
+        
+    {% endfor %}
+    {% endblock %}
+</body>
+</html>

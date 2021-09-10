@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+    {% extends 'base.html' %}
+    {% block title %} {{ object.label }} {% endblock %}
+    {% block content %}
+    <h1>{{ object.label }} </h1>
+      <li>id: <b>{{ object.site_id }}</b> - name: <b>{{ object.label }}</b> - PM2.5: <b>{{ object.pm2_5value }}</b> 
+        - AQI: <b>{{ object.aqi }}</b> - AQI desc: <b>{{ object.aqitext }}</b> - WiFiSignal: <b>{{ object.wifisignal }}</b> - version: <b>{{ object.version }}</b> - geom: <b>{{ object.geom }}</b> 
+        </br>- AQI 1 hr: <b>{{ object.aqi }}</b> - 1 hr desc: <b>{{ object.aqitext }}</b>- PM2.5 1 hr: <b>{{ object.pm2_5_1hour }}</b> - AQI 1hr: <b>{{ object.aqi1hour }}</b>- PM2.5 24hr: <b>{{object.pm2_5_24hour}}</b> - AQI 24hr: <b>{{ object.aqi24hour }}</b>
+        <a href="{% url 'update_station' object.pk %}"><small>(Edit)</small></a>
+        <a href="{% url 'delete_station' object.pk %}"><small>(Delete)</small></a>
+        <a href="{% url 'station-detail-map' object.pk %}"><small>(MAP)</small></a>  
+    </li>
+
+    <a href="{% url 'home' %}" class="btn btn-secondary">BACK </a>
+    {% endblock %}
+</body>
+</html>
