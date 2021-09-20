@@ -1,0 +1,106 @@
+
+    {% extends 'base_sensor.html' %}
+    
+    {% block content %}
+    {% include 'station_list.html' %}
+    {% include 'nhbp_sensor_map.html' %}
+
+
+    <h1>NHBP AIR SENSORS</h1>
+
+    <div class="col-md-7">
+		<h5>LAST 5 ORDERS</h5>
+		<hr>
+		<div class="card card-body">
+			<a class="btn btn-primary  btn-sm btn-block" href="{% url 'add_station' %}">Add Station</a>
+			<table class="table table-sm">
+				<tr>
+					<th>   </th>
+                    <th>ID</th>
+					<th>Sensor Name</th>
+					<th>WiFiSignal</th>
+					<th>Geometry</th>
+				</tr>
+				{% for station in stationData %}
+					<tr>
+						<td><a href="{% url 'station-detail' station.pk %}" class="btn btn-sm btn-info">View</a></td>
+                        <td>{{ station.site_id }}</td>
+						<td>{{ station.label }}</td>
+						<td>{{ station.wifisignal }}</td>
+                        <td>{{ station.geom }}</td>
+						<td><a class="btn btn-sm btn-warning" href="{% url 'update_station' station.pk %}">Update</a></td>
+						<td><a class="btn btn-sm btn-danger" href="{% url 'delete_station' station.pk %}">Delete</a></td>
+					</tr>
+				{% endfor %}
+			</table>
+		</div>
+	</div>
+        
+<br>
+
+<div class="row">
+   
+<div class="col">		
+<div class="card bg-primary text-white" style="width: 400px;">
+    <div class="card-header">STATION AVG PM2.5</div>
+    <div class="card-body">
+      <h2 class="card-title">{{ avgPM25 }}</h2>
+      <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+    </div>
+  </div>
+</div>
+<div class="col">
+<div class="card bg-primary text-white" style="width: 400px;">
+    <div class="card-header">Station AVG AQI</div>
+    <div class="card-body">
+      <h2 class="card-title"> {{ avgAQI }}</h2>
+      <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+    </div>
+  </div>
+</div>
+  <div class="col">
+    <div class="card bg-primary text-white" style="width: 400px;">
+    <div class="card-header">AVG Min Sensor Last Seen</div>
+    <div class="card-body">
+      <h2 class="card-title">{{ timeMin }}</h2>
+      <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+    </div>
+  </div>
+  </div>
+
+</div>
+              
+
+</div>
+
+
+
+<div class="row">
+    {% for station in response.features %}
+    <div class="col">
+		
+			<div class="card bg-primary text-white" style="width: 400px;">
+			  	<div class="card-header">
+			  		<h3 class="card-title">{{ station.properties.label }} - {{ station.properties.ID }}</h3>
+			  	</div>
+			  	<div class="card-body">
+                    <li> PM2.5: <b>{{ station.properties.PM2_5Value }}</b> - Time Since Seen: <b>{{ station.properties.dayHourMinSecSinceSeen }}</b> 
+                        - AQI: <b>{{ station.properties.AQI }}</b> - AQI desc: <b>{{ station.properties.AQIText }}</b> - WiFiSignal: <b>{{ station.properties.WiFisignal }}</b> 
+                        - version: <b>{{ station.properties.version }}</b> - geom: <b>{{ station.geometry.coordinates }}</b> 
+                        - AQI 1 hr: <b>{{ station.properties.AQI1Hour }}</b> - 1 hr desc: <b>{{ station.properties.AQI1HourText }}</b>
+                        - PM2.5 1 hr: <b>{{ station.properties.PM2_5_1hour }}</b> - AQI 24hr: <b>{{ station.properties.AQI24Hour }}</b>
+                        - PM2.5 24hr: <b>{{station.properties.PM2_5_24hour}}</b> - AQI 24hr: <b>{{ station.properties.AQI24Hour }}</b>  
+                    </li> 
+			  	</div>
+			</div>
+		
+	</div>
+              
+    {% endfor %}
+</div>
+
+
+
+
+
+    {% endblock %}

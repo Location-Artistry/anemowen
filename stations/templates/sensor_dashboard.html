@@ -1,0 +1,169 @@
+
+    {% extends 'base_sensor.html' %}
+    
+    {% block content %}
+    {% include 'station_list.html' %}
+    {% include 'nhbp_sensor_map.html' %}
+    <script>
+      class Widget {
+        constructor(id, clsName, styles, txt) {
+          this.div = document.createElement('div');
+          this.type = 'Widget';
+          this.div.id = id;
+          this.childList = [];
+          clsName != null ? this.div.className = clsName : '';
+          styles != null ? styles.forEach(d => this.div.style[Object.keys(d)]=Object.values(d)) : '';
+          txt != null ? this.div.innerText = txt : '';
+        }
+        getType() {return this.type};
+        getID() {return this.div.id};
+        addText(txtType, txt, styles) {
+          this.text = document.createElement(txtType);
+          this.text.innerText = txt; 
+          styles != null ? styles.forEach(d => this.text.style[Object.keys(d)]=Object.values(d)) : '';
+          this.div.append(this.text);
+        }
+        addBorder(styles) {
+          this.div.style.border = styles;
+        }
+        addList(txtType, txt, styles) {
+          txt.forEach(d => {
+            const node = document.createElement(txtType);
+            node.appendChild(document.createTextNode(d));
+            styles != null ? styles.forEach(d => node.style[Object.keys(d)]=Object.values(d)) : '';
+            this.div.append(node);
+          }); 
+        }
+        addChildDiv(id, clsName, styles, txt) {
+          this.childDiv = document.createElement('div');
+          this.childDiv.id = id;
+          clsName != null ? this.childDiv.className = clsName : '';
+          styles != null ? styles.forEach(d => this.childDiv.style[Object.keys(d)]=Object.values(d)) : '';
+          txt != null ? this.childDiv.innerText = txt : '';
+          this.div.append(this.childDiv);
+        }
+        addLastChild(id, clsName, styles, txt) {
+          let lastChild = document.createElement('div');
+          lastChild.id = id;
+          clsName != null ? lastChild.className = clsName : '';
+          styles != null ? styles.forEach(d => lastChild.style[Object.keys(d)]=Object.values(d)) : '';
+          txt != null ? lastChild.innerText = txt : '';
+          this.childList.length != 0 ? this.childList[this.childList.length - 1].append(lastChild): this.div.append(lastChild);
+          this.childList.push(lastChild);
+        }
+      };
+
+    </script>
+
+
+    <h1>NHBP AIR SENSORS</h1>
+
+    <div class="col-md-7">
+		<hr>
+		<div class="card card-body">
+			<a class="btn btn-primary  btn-sm btn-block" href="{% url 'add_station' %}">Add Station</a>
+			<table class="table table-sm">
+				<tr>
+					<th>   </th>
+                    <th>ID</th>
+					<th>Sensor Name</th>
+					<th>WiFiSignal</th>
+					<th>Geometry</th>
+				</tr>
+				{% for station in stationData %}
+					<tr>
+						<td><a href="{% url 'station-detail' station.pk %}" class="btn btn-sm btn-info">View</a></td>
+                        <td>{{ station.site_id }}</td>
+						<td>{{ station.label }}</td>
+						<td>{{ station.wifisignal }}</td>
+                        <td>{{ station.geom }}</td>
+						<td><a class="btn btn-sm btn-warning" href="{% url 'update_station' station.pk %}">Update</a></td>
+						<td><a class="btn btn-sm btn-danger" href="{% url 'delete_station' station.pk %}">Delete</a></td>
+					</tr>
+				{% endfor %}
+			</table>
+		</div>
+	</div>    
+<br>
+
+<!-- Testing Area-->
+
+
+<script>
+  const baseWidget = new Widget('baseWidget','row', [], 'BASEWIDGET');
+  const col1 = new Widget('col1','col-md-10', [], 'COLUMN 1 - col1');
+  const col2 = new Widget('col2','col-md-10', [], 'COLUMN 2 - col2');
+  //const col2_1 = col2.addChildDiv('col2_1','col-md-10', [], 'COLUMN 2.1 - col2_1');
+  //const col2_2 = col2.addChildDiv('col2_2','col-md-10', [], 'COLUMN 2.2 - col2_2');
+  //const col2_2_1 = col2.addLastChild('col2_2_1','col-md-10', [], 'COLUMN 2.2.1 - col2_2_1');
+  document.body.append(baseWidget.div, col1.div);
+
+  
+</script>
+HEEEELLLLLLLLLLLLLLOOOOOO
+
+<!-- Testing Area-->
+
+<div class="row">
+   
+<div class="col">		
+<div class="card bg-primary text-white" style="width: 400px;">
+    <div class="card-header">STATION AVG PM2.5</div>
+    <div class="card-body">
+      <h2 class="card-title">{{ avgPM25 }}</h2>
+      <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+    </div>
+  </div>
+</div>
+<div class="col">
+<div class="card bg-primary text-white" style="width: 400px;">
+    <div class="card-header">Station AVG AQI</div>
+    <div class="card-body">
+      <h2 class="card-title"> {{ avgAQI }}</h2>
+      <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+    </div>
+  </div>
+</div>
+  <div class="col">
+    <div class="card bg-primary text-white" style="width: 400px;">
+    <div class="card-header">AVG Min Sensor Last Seen</div>
+    <div class="card-body">
+      <h2 class="card-title">{{ timeMin }}</h2>
+      <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+    </div>
+  </div>
+  </div>
+
+</div>
+              
+
+</div>
+
+
+
+<div class="row">
+    {% for station in response.features %}
+    <div class="col">
+		
+			<div class="card bg-primary text-white" style="width: 400px;">
+			  	<div class="card-header">
+			  		<h3 class="card-title">{{ station.properties.label }} - {{ station.properties.ID }}</h3>
+			  	</div>
+			  	<div class="card-body">
+                    <li> PM2.5: <b>{{ station.properties.PM2_5Value }}</b> - Time Since Seen: <b>{{ station.properties.dayHourMinSecSinceSeen }}</b> 
+                        - AQI: <b>{{ station.properties.AQI }}</b> - AQI desc: <b>{{ station.properties.AQIText }}</b> - WiFiSignal: <b>{{ station.properties.WiFisignal }}</b> 
+                        - version: <b>{{ station.properties.version }}</b> - geom: <b>{{ station.geometry.coordinates }}</b> 
+                        - AQI 1 hr: <b>{{ station.properties.AQI1Hour }}</b> - 1 hr desc: <b>{{ station.properties.AQI1HourText }}</b>
+                        - PM2.5 1 hr: <b>{{ station.properties.PM2_5_1hour }}</b> - AQI 24hr: <b>{{ station.properties.AQI24Hour }}</b>
+                        - PM2.5 24hr: <b>{{station.properties.PM2_5_24hour}}</b> - AQI 24hr: <b>{{ station.properties.AQI24Hour }}</b>  
+                    </li> 
+			  	</div>
+			</div>
+		
+	</div>
+              
+    {% endfor %}
+</div>
+
+
+    {% endblock %}

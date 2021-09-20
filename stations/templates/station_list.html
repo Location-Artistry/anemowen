@@ -1,0 +1,14 @@
+
+
+    {% block content %}
+
+    {% for station in object_list %}
+        <li> <a href ="{% url 'station-detail' station.pk %}"><b>{{ station.site_id }}</b></a>  - name: <b>{{ station.label }}</b> - PM2.5: <b>{{ station.pm2_5value }}</b> 
+        - AQI: <b>{{ station.aqi }}</b> - AQI desc: <b>{{ station.aqitext }}</b> - WiFiSignal: <b>{{ station.wifisignal }}</b> - version: <b>{{ station.version }}</b> - geom: <b>{{ station.geom }}</b> 
+        </br>- AQI 1 hr: <b>{{ station.aqi }}</b> - 1 hr desc: <b>{{ station.aqitext }}</b>- PM2.5 1 hr: <b>{{ station.pm2_5_1hour }}</b> - AQI 1hr: <b>{{ station.aqi1hour }}</b>- PM2.5 24hr: <b>{{station.pm2_5_24hour}}</b> - AQI 24hr: <b>{{ station.aqi24hour }}</b> - 
+        <a href="{% url 'update_station' station.pk %}"><small>(Edit)</small></a>
+        <a href="{% url 'delete_station' station.pk %}"><small>(Delete)</small></a> 
+        </li>
+    {% endfor %}
+
+    {% endblock %}

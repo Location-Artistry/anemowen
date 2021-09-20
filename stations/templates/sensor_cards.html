@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+</head>
+
+<body>
+    {% extends 'base_sensor.html' %}
+    {% block title %} ANEMOWEN HOME PAGE{% endblock %}
+    {% block content %}
+    <h1>NHBP AIR SENSORS</h1>
+    {% for station in response.features %}
+        <script>
+        console.log('get_data.html');
+        //var popUp = '<h5>{{station.properties.label}}</h5>id: <b>{{station.properties.ID}}</b> - air quality: <b>{{station.properties.aqitext}}</b><br/>pm2.5: <b>{{station.properties.pm2_5value}}</b> - aqi: <b>{{station.properties.aqi}}</b>';
+        //L.marker([ {{ station.geometry.coordinates.1 }},{{ station.geometry.coordinates.0 }}]).addTo(themap).bindPopup(popUp);
+        </script>
+        
+        <li> <b>{{ station.properties.ID }}</b>  - name: <b>{{ station.properties.label }}</b> - PM2.5: <b>{{ station.properties.PM2_5Value }}</b> 
+        - AQI: <b>{{ station.properties.AQI }}</b> - AQI desc: <b>{{ station.properties.AQIText }}</b> - WiFiSignal: <b>{{ station.properties.WiFisignal }}</b> - version: <b>{{ station.properties.version }}</b> - geom: <b>{{ station.geometry.coordinates }}</b> 
+        </br>- AQI 1 hr: <b>{{ station.properties.AQI1Hour }}</b> - 1 hr desc: <b>{{ station.properties.AQI1HourText }}</b>- PM2.5 1 hr: <b>{{ station.properties.PM2_5_1hour }}</b> - AQI 24hr: <b>{{ station.properties.AQI24Hour }}</b>- PM2.5 24hr: <b>{{station.properties.PM2_5_24hour}}</b> - AQI 24hr: <b>{{ station.properties.AQI24Hour }}</b>  
+      
+        </li>
+        
+    {% endfor %}
+    {% endblock %}
+    <br/><br/><a href="{% url 'nhbp-sensor-map' %}" class="btn btn-secondary">MAP </a>
+
+    
+   
+    {% endblock %}
+</body>
+</html>

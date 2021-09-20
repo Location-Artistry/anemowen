@@ -24,7 +24,7 @@
     <h1>STATIONS</h1>
     {% for station in object_list %}
         <script>
-        console.log('WHAT THA');
+        
         var popUp = '<h5>{{station.label}}</h5>id: <b>{{station.site_id}}</b> - air quality: <b>{{station.aqitext}}</b><br/>pm2.5: <b>{{station.pm2_5value}}</b> - aqi: <b>{{station.aqi}}</b>';
         L.marker([ {{ station.geom.y }},{{ station.geom.x }}]).addTo(themap).bindPopup(popUp);
         </script>
