@@ -3,8 +3,8 @@
 
 <script>
       const summaryCards = (data) => {
-        const cCol = new Widget('','col',[],''), gridRow = document.querySelector('#gridRow');
-        const card = new Widget('','card bg-primary text-white mt-5', [{'width':'400px'}], '');
+        const cCol = new Widget('','col',[],'');// gridRow = document.querySelector('#gridRow');
+        const card = new Widget('','card bg-primary text-white mt-5', [{'width':'400px'}, {'background-image': (`linear-gradient(to right, rgba(255,0,0,0), rgba(0,255,0,.7 ) `)}], '');
         card.addChildDiv('','card-header',[],data[1],);
         const cardT = new Widget('','card-body',[],'');
         cardT.addLastChildText('','card-title',[], data[0],'H1');
@@ -13,41 +13,72 @@
         cCol.div.appendChild(card.div);
         gridRow.appendChild(cCol.div);
       }
+      const getAQIcolor = (AQI) => {
+        const AQIcolor = (AQI<=50) ? "#29c402" : (AQI<=100) ? "#decc00" : (AQI<=200) ? "#f5b914" : (AQI<=250) ? "#ff3c19" : (AQI<=300) ? "#ff0019" : 
+        (AQI<=400) ? "#b30000" : (AQI>500) ? "#5c0000" : "grey";
+        return AQIcolor;
+      };
+      function hexToRGB(hex, alpha) {
+        const r = parseInt(hex.slice(1, 3), 16), g = parseInt(hex.slice(3, 5), 16), b = parseInt(hex.slice(5, 7), 16);
+        if (alpha) {
+            return "rgba(" + r + ", " + g + ", " + b + ", " + alpha + ")";
+        } else {
+            return "rgb(" + r + ", " + g + ", " + b + ")";
+        }
+      }
+      const stationCards = (data, divID,color) => {
+        const rgbaColor = hexToRGB(color, 0), rgbaColor1 = hexToRGB(color, .6);
+        const cCol = new Widget('','col',[],'');
+        const card = new Widget('','card bg-light mb-0 mt-2 ', [{'width':'260px'},  ], '');
+        card.addLastChildText('','card-header',[{'background-image': (`linear-gradient(to right, rgba(255,0,0,0), ${rgbaColor1}`)}, {'text-align':'left'}],data.properties.ID,'div');
+        card.addChildDiv('','card-title',[{'text-align':'left'},{'margin-left':'12px'},{'margin-top':'5px'},{'margin-bottom':'0px'}, {'background': 'floralwhite'}],data.properties.label,'H4');
+        const cBody = new Widget('','card-body', [{'text-align': 'left'}, {'background': 'floralwhite'}], '');
+        cBody.addChildDiv('','card-text', [], (`PM2.5 is <b>${data.properties.PM2_5Value}</b> with an AQI of <b>${data.properties.AQI}</b> 
+          The Air Qualiy is <b>${data.properties.AQIText}</b>.</br><b>${data.properties.dayHourMinSecSinceSeen}</b> d/h/m/s since active `),'p');
+        cBody.addChildDiv('','card-text text-muted', [], (`1 hr PM2.5 <b>${data.properties.PM2_5_1hour}</b> and 1 hr AQI <b>${data.properties.AQI1Hour}</b></br>
+          24 hr PM2.5 <b>${data.properties.PM2_5_24hour}</b> and 24 hr AQI <b>${data.properties.AQI24Hour}</b></br>
+          Lon, Lat (<b>${data.geometry.coordinates}</b>)`),'small');
+        card.div.appendChild(cBody.div);
+        cCol.div.appendChild(card.div);
+        document.querySelector(`#${divID}`).appendChild(cCol.div);
+     } 
 </script> 
 
-<div class="jumbotron text-center" style="margin-bottom:0">
-  <h2>Anemowen Air Sensor Admin Dashboard</h2>
+<div class="jumbotron text-center m-2" style="color: midnightblue;">
+  </br>
+  <h1>NHBP ANEMOWEN AIR SENSOR DASHBOARD </h1>
 </div>
 
   <div class="row">
       <div class="col-xl-6">
-        <div class="p-2 mt-2 border bg-light">
-          <h3>NHBP SENSOR MAP</h3> 
+        <div class="p-3 m-2 ms-5  border" style="background: rgb(150, 225, 255,.4);">
+          
           {% include 'nhbp_sensor_map.html' %}
         </div>
       </div>
 
-      <div class="col-xl-6">
-        <div class="p-2 mt-2 border bg-light">
-          <h3>NHBP SENSOR SUMMARY</h3>
-          <div id="gridRow" class="row"> 
-            {% for key, value in sum.items %}
-              <script> var getCards = summaryCards({{ value|safe }}); </script>
+      <div class="col-xl-6 overflow-auto"  style="height: 59.5vh; ">
+        <div class="p-3 m-2 me-5 border" style="background: rgb(150, 225, 255,.4);">
+          <h5>NHBP SENSOR DETAIL</h5>
+          <div id="stationRow"class="row">
+            {% for station in response.features %}
+              <script>
+                var AQIcolor = getAQIcolor('{{ station.properties.AQI }}');
+                var showStations = stationCards({{ station|safe }}, 'stationRow', AQIcolor);
+            </script>
             {% endfor %}
-        </div>
+          </div>
         </div>   
-      </div>  
-
-      
+      </div>    
   </div>
 
   <div class="row">
-    <div class="col-xl-6">
-      <div class="p-2 mt-3 border bg-light">
-        <h2>NHBP AIR SENSORS</h2>
-        <div class="col-md-12">
-          <div class="card card-body">
-            <a class="btn btn-primary  btn-sm btn-block" href="{% url 'add_station' %}">Add Station</a>
+    <div class="col-xl-6" >
+      <div class="p-3 m-2 ms-5 mt-4  border " style="background: rgb(150, 225, 255,.5);" >
+        <h5>NHBP AIR SENSORS</h5>
+        <div class="col-md-12" >
+          <div class="card card-body" style="background: floralwhite;">
+           
             <table class="table table-sm">
               <tr>
                 <th>  </th>
@@ -62,51 +93,34 @@
                   <td>{{ station.site_id }}</td>
                   <td>{{ station.label }}</td>
                   <td>{{ station.wifisignal }}</td>
-                  <td>{{ station.geom }}</td>
-                  <td><a class="btn btn-sm btn-warning" href="{% url 'update_station' station.pk %}">Update</a></td>
-                  <td><a class="btn btn-sm btn-danger" href="{% url 'delete_station' station.pk %}">Delete</a></td>
+                  <td>{{ station.geom.0 }}, {{ station.geom.1 }}</td>
+                  <td><a class="btn btn-sm btn-light" href="{% url 'update_station' station.pk %}">Update</a></td>
+                  <td><a class="btn btn-sm btn-dark" href="{% url 'delete_station' station.pk %}">Delete</a></td>
                 </tr>
               {% endfor %}
             </table>
+            <a class="btn btn-primary  btn-sm btn-block" href="{% url 'add_station' %}">Add Station</a>
           </div>
         </div>    
       </div>   
     </div>
-      
-      <div class="col-xl-6">
-        <div class="p-2 mt-3 border bg-light">
-          <h2>4</h2>
-          <div class="row">
-            {% for station in response.features %}
-            <div class="col">
-              <div class="card text-white bg-secondary mb-4" style="max-width: 300px;">
-                  <div class="card-header">
-                    <h3 class="card-title">{{ station.properties.label }} - {{ station.properties.ID }}</h3>
-                  </div>
-                  <div class="card-body">
-                            <li> PM2.5: <b>{{ station.properties.PM2_5Value }}</b> - Time Since Seen: <b>{{ station.properties.dayHourMinSecSinceSeen }}</b> 
-                                - AQI: <b>{{ station.properties.AQI }}</b> - AQI desc: <b>{{ station.properties.AQIText }}</b> - WiFiSignal: <b>{{ station.properties.WiFisignal }}</b> 
-                                - version: <b>{{ station.properties.version }}</b> - geom: <b>{{ station.geometry.coordinates }}</b> 
-                                - AQI 1 hr: <b>{{ station.properties.AQI1Hour }}</b> - 1 hr desc: <b>{{ station.properties.AQI1HourText }}</b>
-                                - PM2.5 1 hr: <b>{{ station.properties.PM2_5_1hour }}</b> - AQI 24hr: <b>{{ station.properties.AQI24Hour }}</b>
-                                - PM2.5 24hr: <b>{{station.properties.PM2_5_24hour}}</b> - AQI 24hr: <b>{{ station.properties.AQI24Hour }}</b>  
-                            </li> 
-                  </div>
-              </div>
-          </div>        
+
+     <div class="col-xl-6" style="max-width: 950px;">
+        <div class="p-3 m-2 me-5 mt-4 border " style="background: rgb(150, 225, 255,.5);">
+          <h5>NHBP SENSOR SUMMARY</h5>
+          <div id="gridRow" class ="row" > 
+            {% for key, value in sum.items %}
+              <script> var getCards = summaryCards({{ value|safe }}); </script>
             {% endfor %}
         </div>
         </div>   
-      </div>    
+      </div>  
+      
   </div>
-
-
-
-<!-- 
-    {% for key, value in sum.items %}
-        <script> var getCards = summaryCards({{ value|safe }}); </script>
-    {% endfor %}
-  -->
-
- 
 {% endblock %}
+
+{% comment %} 
+ 
+
+{% endcomment %}
+      

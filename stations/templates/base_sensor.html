@@ -42,12 +42,12 @@
             this.div.append(node);
           }); 
         }
-        addChildDiv(id, clsName, styles, txt) {
-          this.childDiv = document.createElement('div');
+        addChildDiv(id, clsName, styles, txt, divType='div') {
+          this.childDiv = document.createElement(divType);
           this.childDiv.id = id;
           clsName != null ? this.childDiv.className = clsName : '';
           styles != null ? styles.forEach(d => this.childDiv.style[Object.keys(d)]=Object.values(d)) : '';
-          txt != null ? this.childDiv.innerText = txt : '';
+          txt != null ? this.childDiv.innerHTML = txt : '';
           this.div.append(this.childDiv);
         }
         addLastChild(id, clsName, styles, txt) {
@@ -55,7 +55,7 @@
           lastChild.id = id;
           clsName != null ? lastChild.className = clsName : '';
           styles != null ? styles.forEach(d => lastChild.style[Object.keys(d)]=Object.values(d)) : '';
-          txt != null ? lastChild.innerText = txt : '';
+          txt != null ? lastChild.innerHTML = txt : '';
           this.childList.length != 0 ? this.childList[this.childList.length - 1].append(lastChild): this.div.append(lastChild);
           this.childList.push(lastChild);
         }
@@ -64,7 +64,7 @@
           lastChild.id = id;
           clsName != null ? lastChild.className = clsName : '';
           styles != null ? styles.forEach(d => lastChild.style[Object.keys(d)]=Object.values(d)) : '';
-          txt != null ? lastChild.textContent = txt : '';
+          txt != null ? lastChild.innerHTML = txt : '';
           this.childList.length != 0 ? this.childList[this.childList.length - 1].append(lastChild): this.div.append(lastChild);
           this.childList.push(lastChild);
         }
@@ -72,7 +72,7 @@
   
     
     </script>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <nav class="navbar navbar-expand-lg navbar-dark" style="background: linear-gradient(to right, rgb(95, 195, 245,1), rgb(95, 195, 245,.6));">
         <div class="container-fluid">
           <a class="navbar-brand" href="{% url 'home' %}">ANEMOWEN AIR QUALITY</a>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -98,8 +98,7 @@
           </div>
         </div>
       </nav>  
-    <br/>
-    <div id="container" class="position-relative overflow-hidden ms-5 text-center">
+    <div id="container" class="position-relative overflow-hidden  text-center" style="background: linear-gradient(rgb(95, 195, 245,.4), rgb(95, 120, 245,.4), rgb(145, 95, 245,.4), rgba(220, 95, 245, 0.4));">
       
       {% block content %}
 
@@ -109,15 +108,8 @@
       <br/><br/><a href="{% url 'home' %}" class="btn btn-secondary">BACK </a>
     </div>
 
-    <!-- Optional JavaScript; choose one of the two! -->
-
     <!-- Option 1: Bootstrap Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
 
-    <!-- Option 2: Separate Popper and Bootstrap JS -->
-    <!--
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js" integrity="sha384-eMNCOe7tC1doHpGoWe/6oMVemdAVTMs2xqW4mwXrXsW0L84Iytr2wi5v2QjrP/xp" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.min.js" integrity="sha384-cn7l7gDp0eyniUwwAZgrzD06kc/tftFf19TOAs2zVinnD/C7E91j9yyk5//jjpt/" crossorigin="anonymous"></script>
-    -->
   </body>
 </html>
