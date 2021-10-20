@@ -54,7 +54,7 @@ def nhbpSensorMap(request):
     response = requests.get('https://purpleairwidget.firebaseapp.com/purpleAirData/44439,41995,41993,42005,41907,97713,97553,97743,97679,91997,97559,95527,92021').json()
     return render(request, 'nhbp_sensor_map.html', {'response':response} )
 
-'''
+# live data
 def dashboard(request):
     liveStations = requests.get('https://purpleairwidget.firebaseapp.com/purpleAirData/44439,41995,41993,42005,41907,97713,97553,97743,97679,91997,97559,95527,92021').json()
     
@@ -63,25 +63,29 @@ def dashboard(request):
         return totSec
 
     def getSummary(data):
-        avgPM25, avgAQI, avgSec = 0, 0, 0
+        avgPM25, avgAQI, avgSec, staNotSeen, staNum = 0, 0, 0, 0, len(data)
         for x in data:
             avgPM25 = avgPM25 + x['properties']['PM2_5Value']
             avgAQI = avgAQI + x['properties']['AQI']
-            avgSec = avgSec + getTime(x['properties']['formatSinceSeen'])
+            timeSec = getTime(x['properties']['formatSinceSeen'])
+            avgSec = avgSec + timeSec
+            staNotSeen = (staNotSeen+1) if timeSec > 3600 else staNotSeen
         avgPM25 = round(avgPM25 / len(data), 2)
         avgAQI = round(avgAQI / len(data))
         avgSec = avgSec / len(data)
         timeMin = round(avgSec / 60, 2)
-        return [avgPM25, avgAQI, timeMin]
+        return {'avgPM25': [avgPM25,'STATION Avg PM2.5', (f'Average of PM2.5 from {staNum} NHBP Sensors')], 'avgAQI':[avgAQI,'STATION Avg AQI',(f'Average Air Quality Index from {staNum} NHBP Sensors')],
+        'timeMin':[timeMin,'STATION Avg Min Since Active',(f'Average of Minutes Since Last Active from {staNum} NHBP Sensors')], 'staNotSeen':[ staNotSeen,'INACTIVE STATIONS',(f'Total station not active for more than one hour of {staNum} NHBP Sensors')]  }
 
-    summary = getSummary(liveStations['features'])
-    avgPM25, avgAQI, timeMin = summary[0], summary[1], summary[2]
+    sum = getSummary(liveStations['features'])
+   
     stationData = Stations.objects.all()
     stationCount = Stations.objects.all().count()
-    context = {'response': liveStations, 'stationData': stationData, 'stationCount': stationCount, 'avgPM25': avgPM25, 'avgAQI': avgAQI, 'timeMin': timeMin }
+    context = {'response': liveStations, 'stationData': stationData, 'stationCount': stationCount, 'sum':sum}
     return render(request, 'sensor_dashboard.html', context)
-'''
 
+'''
+# static dataFile
 def dashboard(request):
     # liveStations = requests.get('https://purpleairwidget.firebaseapp.com/purpleAirData/44439').json()
 
@@ -109,7 +113,7 @@ def dashboard(request):
         timeMin = round(avgSec / 60, 2)
         return {'avgPM25': [avgPM25,'STATION Avg PM2.5', (f'Average of PM2.5 from {staNum} NHBP Sensors')], 'avgAQI':[avgAQI,'STATION Avg AQI',(f'Average Air Quality Index from {staNum} NHBP Sensors')],
         'timeMin':[timeMin,'STATION Avg Min Since Active',(f'Average of Minutes Since Last Active from {staNum} NHBP Sensors')], 'staNotSeen':[ staNotSeen,'INACTIVE STATIONS',(f'Total station not active for more than one hour of {staNum} NHBP Sensors')]  }
-        # return [avgPM25, avgAQI, timeMin, staNotSeen]
+        #return [avgPM25, avgAQI, timeMin, staNotSeen]
         #return {'avgPM25': [avgPM25,'STATION Avg PM2.5', (f'Average of PM2.5 from {staNum} NHBP Sensors')], 'avgAQI':[avgAQI,'STATION Avg AQI',(f'Average Air Quality Index from {staNum} NHBP Sensors')], 'timeMin':[timeMin,'STATION Avg Min Since Active'(f'Average of Minutes Since Last Active from {staNum} NHBP Sensors')], 'staNotSeen':[ staNotSeen,'INACTIVE STATIONS'(f'Total station not active for more than one hour of {staNum} NHBP Sensors')] }
     sum = getSummary(liveStations['features'])
     # avgPM25, avgAQI, timeMin, staNotSeen = sum[0], sum[1], sum[2], sum[3]
@@ -117,3 +121,4 @@ def dashboard(request):
     stationCount = Stations.objects.all().count()
     context = {'response': liveStations, 'stationData': stationData, 'stationCount': stationCount, 'sum':sum}
     return render(request, 'sensor_dashboard.html', context)
+'''

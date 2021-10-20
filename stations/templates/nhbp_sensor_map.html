@@ -8,6 +8,23 @@
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="crossorigin=""></script>
 
     <title></title>
+    <style>
+        .info {
+            padding: 6px 8px;
+            font: 14px/16px Arial, Helvetica, sans-serif;
+            background: white;
+            background: rgba(255,255,255,0.5);
+            box-shadow: 0 0 15px rgba(0,0,0,0.2);
+            border-radius: 5px;
+            color:rgb(46, 46, 46);
+            font-size: small;
+        }
+        .info h5 {
+            margin: 0 0 5px;
+            color: rgb(55, 55, 55);
+        }
+    </style>
+
 </head>
 
 <body>
@@ -15,22 +32,24 @@
     {% block content %}
     <div id="map" style="width: 100%; height: 55vh;"></div>
     <script>
-        
-        const themap = L.map('map').setView([ 43.7, -85], 7);
-        var OpenStreetMap_Mapnik = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-	maxZoom: 19,
-	attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-}).addTo(themap);
-        L.tileLayer('https://stamen-tiles-{s}.a.ssl.fastly.net/toner/{z}/{x}/{y}.{ext}', {
-        attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-        subdomains: 'abcd', minZoom: 1, maxZoom: 18, ext: 'png' });
-        
-
-        const gageStyle = (feature) => {
-            const d = feature.properties.AQI;
-            const gColor = d > 400 ? 'red' : d > 300  ? 'redorange' : d > 40 ? 'orange' : d > 30 ? 'yellow' : d > 20 ? 'lightgreen' : d > 10 ? 'green' : d > 5 ? 'darkgreen': 'grey';
-            return { radius: 15, fillColor: gColor, color: "grey", weight: 3, fillOpacity: 0.8};
+        //Leaflet basemap picker
+         const maps = {'POS':['https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',{ attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',subdomains: 'abcd',maxZoom: 19}],
+            'OSM':['https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{ attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'}],
+            'SMO':['https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}{r}.png',{ maxZoom: 20, attribution: '&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>, &copy; <a href="https://openmaptiles.org/">OpenMapTiles</a> &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors'}],
+            'MOB':['https://tile.thunderforest.com/mobile-atlas/{z}/{x}/{y}.png?apikey=fd0a294ce65c4a7fa0cf857cec97c13c',   { attribution: '&copy; <a href="http://www.thunderforest.com/">Thunderforest</a>, &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',maxZoom: 22 }],
+            'TON':['https://stamen-tiles-{s}.a.ssl.fastly.net/toner-lite/{z}/{x}/{y}{r}.{ext}',{ attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',subdomains: 'abcd',minZoom: 0,maxZoom: 20,ext: 'png'}],
+            'TER':['https://stamen-tiles-{s}.a.ssl.fastly.net/terrain/{z}/{x}/{y}{r}.{ext}', { attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="https://www.openstreetmap.org /copyright">OpenStreetMap</a> contributors',subdomains: 'abcd',minZoom: 0,maxZoom: 18,ext: 'png'}],
+            'DRK':['https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', { attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',subdomains: 'abcd',maxZoom: 19}],
+            'SAT':['https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', { attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'}],
         };
+        baseMap = L.tileLayer(maps.SAT[0],maps.SAT[1])
+        const themap = L.map('map').setView([ 43.5, -85], 6);
+        baseMap.addTo(themap);        
+        const gageStyle = (feature) => {
+            const gColor = getAQIcolor(feature.properties.AQI);
+            return { radius: 12, fillColor: gColor, color: "grey", weight: 3, fillOpacity: 0.8};
+        };
+
         function staPop (feature, layer) { 
             const p = feature.properties;
             layer.bindPopup(`<h3>${p.label}</h3>
@@ -63,8 +82,9 @@
         };
         // method that we will use to update the control based on feature properties passed
         info.update = function (props) {
-            this._div.innerHTML = '<h4>STATION STATUS:</h4>' +  (props ?
-            '<b>'+props.status +'</b><br />'+ props.info + '<br />' + props.stationInfo.siteFlow + ' ft3/s' + ' - ' + props.stationInfo.gageHeight + ' ft ' + ' - ' + ' ID: ' + props.ID: 'Hover over a station')};
+            this._div.innerHTML = '<h5>AIR QUALITY:</h5>' +  (props ?
+            '<b>'+props.AQIText+'</b><br/>'+props.label+' - '+props.ID+'<br/>'+'AQI/PM2.5: <b>'+props.AQI+' / '+props.PM2_5Value+'</b><br/>24hrAQI/PM: <b>'+props.AQI24Hour+' / '+props.PM2_5_24hour+'</b>' 
+            +'<br/>LastSeen(d/h/m/s): <b>'+props.dayHourMinSecSinceSeen+'</b>': 'Hover over a station')};
         info.addTo(themap);
 
         const layer1 = L.geoJSON({{ response|safe }}, {style: gageStyle, onEachFeature: staPop, pointToLayer: function (feature, latlng) { return L.circleMarker(latlng)} }).addTo(themap);

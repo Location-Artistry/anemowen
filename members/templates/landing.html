@@ -1,0 +1,39 @@
+{% extends 'base_members.html' %}
+{% block title %}Register{% endblock %}
+{% block content %}
+
+<div class="jumbotron text-center mt-5" style="color: midnightblue;">
+</br>
+<h1>Do You Care?<br/></h1>
+<h1>About the Air<br/></h1>
+</div>
+<div>
+        <a href="{% url 'register' %}" class="btn btn-primary btn-lg mt-3">Login/Register</a>
+        <br/><br/>
+        <a href="{% url 'sensor-dashboard' %}" class="btn btn-secondary btn-lg">Just take me to </br>the dashboard!</a>
+</div>
+
+<div class="row justify-content-center" >
+        <div class="col-xl-3 border m-4 p-3" style="background: rgb(150, 225, 255,.5);" >
+        
+                  <h4>Active NHBP Sensors</h4>
+                  <h1>{{ stationCount }} </h1>
+                  <h1>{{ stationCountCP }}</h1>
+                  <script>console.log({{ stationCount }});</script>
+                  
+                
+        </div>
+        <div class="col-xl-2 m-3" ></div>
+        
+        <div class="col-xl-3 m-4 p-3 border" style="background: rgb(150, 225, 255,.5);" >
+                
+                  <h5>Reservation AQI</h5>
+                  <div id="gridRow" class ="row" > 
+                    {% for value in liveStationsCP %}
+                      {{ value }}
+                    {% endfor %}
+                </div>
+                   
+        </div>  
+</div>
+{% endblock %}

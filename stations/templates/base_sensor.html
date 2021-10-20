@@ -69,6 +69,47 @@
           this.childList.push(lastChild);
         }
       };
+
+      const summaryCards = (data) => {
+        const cCol = new Widget('','col',[],'');// gridRow = document.querySelector('#gridRow');
+        const card = new Widget('','card bg-primary text-white mt-5', [{'width':'400px'}, {'background-image': (`linear-gradient(to right, rgba(255,0,0,0), rgba(0,255,0,.7 ) `)}], '');
+        card.addChildDiv('','card-header',[],data[1],);
+        const cardT = new Widget('','card-body',[],'');
+        cardT.addLastChildText('','card-title',[], data[0],'H1');
+        cardT.addChildDiv('','card-text',[],data[2],'P');
+        card.div.appendChild(cardT.div);
+        cCol.div.appendChild(card.div);
+        gridRow.appendChild(cCol.div);
+      }
+      const getAQIcolor = (AQI) => {
+        const AQIcolor = (AQI<=50) ? "#29c402" : (AQI<=100) ? "#decc00" : (AQI<=200) ? "#f5b914" : (AQI<=250) ? "#ff3c19" : (AQI<=300) ? "#ff0019" : 
+        (AQI<=400) ? "#b30000" : (AQI>500) ? "#5c0000" : "grey";
+        return AQIcolor;
+      };
+      function hexToRGB(hex, alpha) {
+        const r = parseInt(hex.slice(1, 3), 16), g = parseInt(hex.slice(3, 5), 16), b = parseInt(hex.slice(5, 7), 16);
+        if (alpha) {
+            return "rgba(" + r + ", " + g + ", " + b + ", " + alpha + ")";
+        } else {
+            return "rgb(" + r + ", " + g + ", " + b + ")";
+        }
+      }
+      const stationCards = (data, divID,color) => {
+        const rgbaColor = hexToRGB(color, 0), rgbaColor1 = hexToRGB(color, .6);
+        const cCol = new Widget('','col',[],'');
+        const card = new Widget('','card bg-light mb-0 mt-2 ', [{'width':'260px'},  ], '');
+        card.addLastChildText('','card-header',[{'background-image': (`linear-gradient(to right, rgba(255,0,0,0), ${rgbaColor1}`)}, {'text-align':'left'}],data.properties.ID,'div');
+        card.addChildDiv('','card-title',[{'text-align':'left'},{'margin-left':'12px'},{'margin-top':'5px'},{'margin-bottom':'0px'}, {'background': 'floralwhite'}],data.properties.label,'H4');
+        const cBody = new Widget('','card-body', [{'text-align': 'left'}, {'background': 'floralwhite'}], '');
+        cBody.addChildDiv('','card-text', [], (`PM2.5 is <b>${data.properties.PM2_5Value}</b> with an AQI of <b>${data.properties.AQI}</b> 
+          The Air Qualiy is <b>${data.properties.AQIText}</b>.</br><b>${data.properties.dayHourMinSecSinceSeen}</b> d/h/m/s since active `),'p');
+        cBody.addChildDiv('','card-text text-muted', [], (`1 hr PM2.5 <b>${data.properties.PM2_5_1hour}</b> and 1 hr AQI <b>${data.properties.AQI1Hour}</b></br>
+          24 hr PM2.5 <b>${data.properties.PM2_5_24hour}</b> and 24 hr AQI <b>${data.properties.AQI24Hour}</b></br>
+          Lon, Lat (<b>${data.geometry.coordinates}</b>)`),'small');
+        card.div.appendChild(cBody.div);
+        cCol.div.appendChild(card.div);
+        document.querySelector(`#${divID}`).appendChild(cCol.div);
+     } 
   
     
     </script>
@@ -91,6 +132,9 @@
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="#">MESSAGE BOARD ADMIN</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'register' %}">REGISTER</a>
               </li>
               
             </ul>
