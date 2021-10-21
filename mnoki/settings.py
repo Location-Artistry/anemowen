@@ -84,7 +84,7 @@ DATABASES = {
         'NAME': 'generic',
         'USER': 'mnoki',
         'PASSWORD': 'mnoki',
-        'HOST': '127.0.0.1',
+        'HOST': 'localhost',
         'PORT': '5432'
     },
 }
@@ -138,5 +138,4 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # Heroku: Update database configuration from $DATABASE_URL.
 #import dj_database_url
 #db_from_env = dj_database_url.config(conn_max_age=500)
-#DATABASES['default'].update(db_from_env)
-
+DATABASES['default']['ENGINE'] = 'django.contrib.gis.db.backends.postgis'
