@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-8v)uur90c)7v(vap-^*4j%w&(5(vi2*5zq+apx$2&10hvin&-0
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['0.0.0.0', 'localhost', '127.0.0.1', 'thawing-fjord-82457.git']
 
 
 # Application definition
