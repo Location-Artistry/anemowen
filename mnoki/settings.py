@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-8v)uur90c)7v(vap-^*4j%w&(5(vi2*5zq+apx$2&10hvin&-0
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['0.0.0.0', 'localhost', '127.0.0.1', 'git.heroku.com/thawing-fjord-82457.git','*']
+ALLOWED_HOSTS = ['0.0.0.0', 'localhost', '127.0.0.1', 'thawing-fjord-82457.git','*']
 
 
 # Application definition
@@ -136,6 +136,6 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Heroku: Update database configuration from $DATABASE_URL.
-#import dj_database_url
-#db_from_env = dj_database_url.config(conn_max_age=500)
+import dj_database_url
+db_from_env = dj_database_url.config(conn_max_age=500)
 DATABASES['default']['ENGINE'] = 'django.contrib.gis.db.backends.postgis'
