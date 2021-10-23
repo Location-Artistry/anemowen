@@ -18,8 +18,12 @@ from django.urls import path, include
 from django.urls.conf import include
 
 urlpatterns = [
+    path('', include('members.urls')),
     path('admin/', admin.site.urls),
-    path('', include('stations.urls')),
-    path('members/', include('django.contrib.auth.urls')),
+    path('station/', include('stations.urls')),
     path('members/', include('members.urls')),
+    
+    #path('members/', include('django.contrib.auth.urls')),
+    
+    
 ]

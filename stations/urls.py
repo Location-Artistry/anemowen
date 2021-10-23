@@ -5,7 +5,7 @@ from .views import AddStationView, HomeView, StationDetailView, UpdateStationVie
 
 urlpatterns = [
     # path('',views.home, name="home")
-    path('', HomeView.as_view(), name='home'),
+    path('home', HomeView.as_view(), name='home'),
     path('station/<int:pk>', StationDetailView.as_view(), name='station-detail'),
     path('add_station/', AddStationView.as_view(), name='add_station'), 
     path('station/edit/<int:pk>', UpdateStationView.as_view(), name='update_station'),

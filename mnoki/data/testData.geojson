@@ -1,0 +1,505 @@
+{
+    "type": "FeatureCollection",
+    "metadata": "GeoJSON of Purple Air Stations requested by station ID, data from PA API, AQI Index calculated using USEPA methods by NHBP, WGS 84 Coordinate System",
+    "features": [
+        {
+            "type": "Feature",
+            "properties": {
+                "ID": 44439,
+                "label": "NHBP",
+                "flagged_high": 0,
+                "version": "6.01",
+                "WiFiSignal": "-55",
+                "PM2_5Value": 1.73,
+                "PM2_5_1hour": 2.88,
+                "PM2_5_24hour": 12.17,
+                "PM2_5_1week": 13.36,
+                "sensorDiff": "0.98",
+                "AQI": 7,
+                "AQIText": "Good",
+                "AQI1Hour": 12,
+                "AQI1HourText": "Good",
+                "AQI24Hour": 51,
+                "AQI24HourText": "Moderate",
+                "AQI1Week": 54,
+                "AQI1WeekText": "Moderate",
+                "lastSeen": "2021-09-21T00:09:36.000Z",
+                "lastSeenUTC": 1632182976000,
+                "dayHourMinSecSinceSeen": "0:0:2:0",
+                "formatSinceSeen": {
+                    "day": 0,
+                    "hour": 0,
+                    "minute": 2,
+                    "seconds": 0
+                }
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -85.269179,
+                    42.102401
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "ID": 41995,
+                "label": "NHBP-ORIOLE",
+                "version": "6.01",
+                "WiFiSignal": "-75",
+                "PM2_5Value": 1.35,
+                "PM2_5_1hour": 2.17,
+                "PM2_5_24hour": 10.11,
+                "PM2_5_1week": 12.38,
+                "sensorDiff": "0.16",
+                "AQI": 6,
+                "AQIText": "Good",
+                "AQI1Hour": 9,
+                "AQI1HourText": "Good",
+                "AQI24Hour": 42,
+                "AQI24HourText": "Good",
+                "AQI1Week": 52,
+                "AQI1WeekText": "Moderate",
+                "lastSeen": "2021-09-21T00:10:59.000Z",
+                "lastSeenUTC": 1632183059000,
+                "dayHourMinSecSinceSeen": "0:0:0:37",
+                "formatSinceSeen": {
+                    "day": 0,
+                    "hour": 0,
+                    "minute": 0,
+                    "seconds": 37
+                }
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -85.261472,
+                    42.103152
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "ID": 41993,
+                "label": "NHBP-LILAC",
+                "version": "6.01",
+                "WiFiSignal": "-63",
+                "PM2_5Value": 5.73,
+                "PM2_5_1hour": 7.59,
+                "PM2_5_24hour": 10.72,
+                "PM2_5_1week": 11.5,
+                "sensorDiff": "0.32",
+                "AQI": 24,
+                "AQIText": "Good",
+                "AQI1Hour": 32,
+                "AQI1HourText": "Good",
+                "AQI24Hour": 45,
+                "AQI24HourText": "Good",
+                "AQI1Week": 48,
+                "AQI1WeekText": "Good",
+                "lastSeen": "2021-09-21T00:11:28.000Z",
+                "lastSeenUTC": 1632183088000,
+                "dayHourMinSecSinceSeen": "0:0:0:8",
+                "formatSinceSeen": {
+                    "day": 0,
+                    "hour": 0,
+                    "minute": 0,
+                    "seconds": 8
+                }
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -86.197547,
+                    43.078312
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "ID": 42005,
+                "label": "NHBP-Goat",
+                "flagged_high": 1,
+                "version": "6.01",
+                "WiFiSignal": "-75",
+                "PM2_5Value": 11.54,
+                "PM2_5_1hour": 11.52,
+                "PM2_5_24hour": 14.43,
+                "PM2_5_1week": 15.58,
+                "sensorDiff": "3.50",
+                "AQI": 48,
+                "AQIText": "Good",
+                "AQI1Hour": 48,
+                "AQI1HourText": "Good",
+                "AQI24Hour": 56,
+                "AQI24HourText": "Moderate",
+                "AQI1Week": 58,
+                "AQI1WeekText": "Moderate",
+                "lastSeen": "2021-09-21T00:09:43.000Z",
+                "lastSeenUTC": 1632182983000,
+                "dayHourMinSecSinceSeen": "0:0:1:53",
+                "formatSinceSeen": {
+                    "day": 0,
+                    "hour": 0,
+                    "minute": 1,
+                    "seconds": 53
+                }
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -86.244534,
+                    43.22245
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "ID": 41907,
+                "label": "Hillman, Michigan",
+                "version": "6.01",
+                "WiFiSignal": "-83",
+                "PM2_5Value": 17.19,
+                "PM2_5_1hour": 16.05,
+                "PM2_5_24hour": 6.35,
+                "PM2_5_1week": 7.92,
+                "sensorDiff": "1.30",
+                "AQI": 62,
+                "AQIText": "Moderate",
+                "AQI1Hour": 59,
+                "AQI1HourText": "Moderate",
+                "AQI24Hour": 26,
+                "AQI24HourText": "Good",
+                "AQI1Week": 33,
+                "AQI1WeekText": "Good",
+                "lastSeen": "2021-09-21T00:10:50.000Z",
+                "lastSeenUTC": 1632183050000,
+                "dayHourMinSecSinceSeen": "0:0:0:46",
+                "formatSinceSeen": {
+                    "day": 0,
+                    "hour": 0,
+                    "minute": 0,
+                    "seconds": 46
+                }
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -84.043517,
+                    45.048314
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "ID": 97713,
+                "label": "NHBP-OTTER",
+                "version": "6.01",
+                "WiFiSignal": "-82",
+                "PM2_5Value": 4.44,
+                "PM2_5_1hour": 7.32,
+                "PM2_5_24hour": 10.26,
+                "PM2_5_1week": 11.38,
+                "sensorDiff": "0.85",
+                "AQI": 19,
+                "AQIText": "Good",
+                "AQI1Hour": 31,
+                "AQI1HourText": "Good",
+                "AQI24Hour": 43,
+                "AQI24HourText": "Good",
+                "AQI1Week": 47,
+                "AQI1WeekText": "Good",
+                "lastSeen": "2021-09-21T00:09:41.000Z",
+                "lastSeenUTC": 1632182981000,
+                "dayHourMinSecSinceSeen": "0:0:1:55",
+                "formatSinceSeen": {
+                    "day": 0,
+                    "hour": 0,
+                    "minute": 1,
+                    "seconds": 55
+                }
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -86.169369,
+                    42.964838
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "ID": 97553,
+                "label": "NHBP-OZ",
+                "flagged_high": 1,
+                "version": "6.01",
+                "WiFiSignal": "-77",
+                "PM2_5Value": 0.74,
+                "PM2_5_1hour": 1.46,
+                "PM2_5_24hour": 8.44,
+                "PM2_5_1week": 10.18,
+                "sensorDiff": "0.35",
+                "AQI": 3,
+                "AQIText": "Good",
+                "AQI1Hour": 6,
+                "AQI1HourText": "Good",
+                "AQI24Hour": 35,
+                "AQI24HourText": "Good",
+                "AQI1Week": 42,
+                "AQI1WeekText": "Good",
+                "lastSeen": "2021-09-21T00:11:12.000Z",
+                "lastSeenUTC": 1632183072000,
+                "dayHourMinSecSinceSeen": "0:0:0:24",
+                "formatSinceSeen": {
+                    "day": 0,
+                    "hour": 0,
+                    "minute": 0,
+                    "seconds": 24
+                }
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -85.267526,
+                    42.105281
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "ID": 97743,
+                "label": "NHBP-PIPER",
+                "version": "6.01",
+                "WiFiSignal": "-61",
+                "PM2_5Value": 0.95,
+                "PM2_5_1hour": 3.4,
+                "PM2_5_24hour": 9.09,
+                "PM2_5_1week": 10.66,
+                "sensorDiff": "0.27",
+                "AQI": 4,
+                "AQIText": "Good",
+                "AQI1Hour": 14,
+                "AQI1HourText": "Good",
+                "AQI24Hour": 38,
+                "AQI24HourText": "Good",
+                "AQI1Week": 44,
+                "AQI1WeekText": "Good",
+                "lastSeen": "2021-09-21T00:11:18.000Z",
+                "lastSeenUTC": 1632183078000,
+                "dayHourMinSecSinceSeen": "0:0:0:18",
+                "formatSinceSeen": {
+                    "day": 0,
+                    "hour": 0,
+                    "minute": 0,
+                    "seconds": 18
+                }
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -85.122212,
+                    42.264888
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "ID": 97679,
+                "label": "NHBP-BUSTER",
+                "version": "6.01",
+                "WiFiSignal": "-86",
+                "PM2_5Value": 10.08,
+                "PM2_5_1hour": 10.59,
+                "PM2_5_24hour": 13.3,
+                "PM2_5_1week": 14.22,
+                "sensorDiff": "1.52",
+                "AQI": 42,
+                "AQIText": "Good",
+                "AQI1Hour": 44,
+                "AQI1HourText": "Good",
+                "AQI24Hour": 54,
+                "AQI24HourText": "Moderate",
+                "AQI1Week": 55,
+                "AQI1WeekText": "Moderate",
+                "lastSeen": "2021-09-21T00:11:17.000Z",
+                "lastSeenUTC": 1632183077000,
+                "dayHourMinSecSinceSeen": "0:0:0:19",
+                "formatSinceSeen": {
+                    "day": 0,
+                    "hour": 0,
+                    "minute": 0,
+                    "seconds": 19
+                }
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -86.185903,
+                    43.310467
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "ID": 91997,
+                "label": "NHBP-BOSTON",
+                "version": "6.01",
+                "WiFiSignal": "-87",
+                "PM2_5Value": 2.27,
+                "PM2_5_1hour": 2.96,
+                "PM2_5_24hour": 11.69,
+                "PM2_5_1week": 13.63,
+                "sensorDiff": "0.37",
+                "AQI": 9,
+                "AQIText": "Good",
+                "AQI1Hour": 12,
+                "AQI1HourText": "Good",
+                "AQI24Hour": 49,
+                "AQI24HourText": "Good",
+                "AQI1Week": 54,
+                "AQI1WeekText": "Moderate",
+                "lastSeen": "2021-09-21T00:11:06.000Z",
+                "lastSeenUTC": 1632183066000,
+                "dayHourMinSecSinceSeen": "0:0:0:30",
+                "formatSinceSeen": {
+                    "day": 0,
+                    "hour": 0,
+                    "minute": 0,
+                    "seconds": 30
+                }
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -85.585801,
+                    42.233049
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "ID": 97559,
+                "label": "NHBP-AIR",
+                "flagged_high": 1,
+                "version": "6.01",
+                "WiFiSignal": "-73",
+                "PM2_5Value": 5.02,
+                "PM2_5_1hour": 6.12,
+                "PM2_5_24hour": 9.44,
+                "PM2_5_1week": 10.13,
+                "sensorDiff": "0.69",
+                "AQI": 21,
+                "AQIText": "Good",
+                "AQI1Hour": 26,
+                "AQI1HourText": "Good",
+                "AQI24Hour": 39,
+                "AQI24HourText": "Good",
+                "AQI1Week": 42,
+                "AQI1WeekText": "Good",
+                "lastSeen": "2021-09-21T00:11:36.000Z",
+                "lastSeenUTC": 1632183096000,
+                "dayHourMinSecSinceSeen": "0:0:0:0",
+                "formatSinceSeen": {
+                    "day": 0,
+                    "hour": 0,
+                    "minute": 0,
+                    "seconds": 0
+                }
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -86.162829,
+                    43.026822
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "ID": 95527,
+                "label": "NHBP-GOODRICH",
+                "flagged_high": 1,
+                "version": "6.01",
+                "WiFiSignal": "-87",
+                "PM2_5Value": 1.78,
+                "PM2_5_1hour": 3.86,
+                "PM2_5_24hour": 10.23,
+                "PM2_5_1week": 11.09,
+                "sensorDiff": "0.54",
+                "AQI": 7,
+                "AQIText": "Good",
+                "AQI1Hour": 16,
+                "AQI1HourText": "Good",
+                "AQI24Hour": 43,
+                "AQI24HourText": "Good",
+                "AQI1Week": 46,
+                "AQI1WeekText": "Good",
+                "lastSeen": "2021-09-21T00:10:09.000Z",
+                "lastSeenUTC": 1632183009000,
+                "dayHourMinSecSinceSeen": "0:0:1:28",
+                "formatSinceSeen": {
+                    "day": 0,
+                    "hour": 0,
+                    "minute": 1,
+                    "seconds": 28
+                }
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -85.888085,
+                    42.394767
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "ID": 92021,
+                "label": "NHBP-BUDDYJONES",
+                "version": "6.01",
+                "WiFiSignal": "-91",
+                "PM2_5Value": 3.39,
+                "PM2_5_1hour": 5.48,
+                "PM2_5_24hour": 9.87,
+                "PM2_5_1week": 11.13,
+                "sensorDiff": "0.31",
+                "AQI": 14,
+                "AQIText": "Good",
+                "AQI1Hour": 23,
+                "AQI1HourText": "Good",
+                "AQI24Hour": 41,
+                "AQI24HourText": "Good",
+                "AQI1Week": 46,
+                "AQI1WeekText": "Good",
+                "lastSeen": "2021-09-21T00:08:31.000Z",
+                "lastSeenUTC": 1632182911000,
+                "dayHourMinSecSinceSeen": "0:0:3:6",
+                "formatSinceSeen": {
+                    "day": 0,
+                    "hour": 0,
+                    "minute": 3,
+                    "seconds": 6
+                }
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -85.787829,
+                    42.848254
+                ]
+            }
+        }
+    ]
+}

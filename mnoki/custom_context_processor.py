@@ -1,12 +1,14 @@
 from stations.models import Stations
 import requests
 
-def station_renderer(request):
-    queryset = Stations.objects.all()
-    stationCount = len(queryset)
-    return { 'allStations': queryset, 'stationCount': stationCount }
+from stations.views import StationList
 
-# static dataFile
+def station_renderer(request):
+    stationsList = Stations.objects.all()
+    stationCount = len(stationsList)
+    return { 'allStations': stationsList, 'stationCount': stationCount }
+
+# static dataFile for landinf page test
 def dashboardCP(request):
     import json
     import os

@@ -7,12 +7,9 @@ from django.views.generic import ListView, CreateView, DetailView, UpdateView, D
 
 class UserRegisterView(generic.CreateView):
     form_class = UserCreationForm
-    template_name = 'registration/register.html'
+    template_name = 'register.html'
     success_url = reverse_lazy('login')
 
 class LandingView(ListView):
     model = Stations
     template_name = 'landing.html'
-
-
-# Create your views here.
