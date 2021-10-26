@@ -71,7 +71,8 @@
       };
 
       const summaryCards = (data) => {
-        const cCol = new Widget('','col',[],'');// gridRow = document.querySelector('#gridRow');
+        const cCol = new Widget('','col',[],'');
+        const gridRow = document.querySelector('#gridRow');
         const card = new Widget('','card bg-primary text-white mt-5', [{'width':'400px'}, {'background-image': (`linear-gradient(to right, rgba(255,0,0,0), rgba(0,255,0,.7 ) `)}], '');
         card.addChildDiv('','card-header',[],data[1],);
         const cardT = new Widget('','card-body',[],'');
@@ -122,28 +123,42 @@
           </button>
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              {% if user.is_authenticated %}
+                <li class="nav-item">
+                  <a class="nav-link" href="{% url 'sensor-dashboard' %}">Air Quality Dashboard</a>
+                </li>            
+              
+                <li class="nav-item">
+                  <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="{% url 'register' %}">MySensor</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#">AirShare</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#">Request a Test/Sensor</a>
+                </li>
+              
+              {% else %}
               <li class="nav-item">
                 <a class="nav-link" href="{% url 'sensor-dashboard' %}">Air Quality Dashboard</a>
               </li>            
-              <li class="nav-item">
-                <a class="nav-link" href="{% url 'register' %}">Login/Signup</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="{% url 'register' %}">MySensor</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">AirShare</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">Request a Test/Sensor</a>
-              </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="{% url 'register' %}">Register</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="{% url 'login' %}">Login</a>
+                </li>
               
+              {% endif %}
             </ul>
             
           </div>
         </div>
       </nav>  
-    <div id="container" class="position-relative overflow-hidden  text-center" style="height:100vh; background: linear-gradient(rgb(95, 195, 245,.4), rgb(95, 120, 245,.4), rgb(145, 95, 245,.4), rgba(220, 95, 245, 0.4));">
+    <div id="container" class="position-relative overflow-hidden text-center" style="height:100vh; background: linear-gradient(rgb(95, 195, 245,.4), rgb(95, 120, 245,.4), rgb(145, 95, 245,.4), rgba(220, 95, 245, 0.4));">
       {% block content %}
 
       {% endblock %}

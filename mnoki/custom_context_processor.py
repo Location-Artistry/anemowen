@@ -33,12 +33,9 @@ def dashboardCP(request):
         avgAQI = round(avgAQI / len(data))
         avgSec = avgSec / len(data)
         timeMin = round(avgSec / 60, 2)
-        return {'avgPM25': [avgPM25,'STATION Avg PM2.5', (f'Average of PM2.5 from {staNum} NHBP Sensors')], 'avgAQI':[avgAQI,'STATION Avg AQI',(f'Average Air Quality Index from {staNum} NHBP Sensors')],
-        'timeMin':[timeMin,'STATION Avg Min Since Active',(f'Average of Minutes Since Last Active from {staNum} NHBP Sensors')], 'staNotSeen':[ staNotSeen,'INACTIVE STATIONS',(f'Total station not active for more than one hour of {staNum} NHBP Sensors')]  }
-        #return [avgPM25, avgAQI, timeMin, staNotSeen]
-        #return {'avgPM25': [avgPM25,'STATION Avg PM2.5', (f'Average of PM2.5 from {staNum} NHBP Sensors')], 'avgAQI':[avgAQI,'STATION Avg AQI',(f'Average Air Quality Index from {staNum} NHBP Sensors')], 'timeMin':[timeMin,'STATION Avg Min Since Active'(f'Average of Minutes Since Last Active from {staNum} NHBP Sensors')], 'staNotSeen':[ staNotSeen,'INACTIVE STATIONS'(f'Total station not active for more than one hour of {staNum} NHBP Sensors')] }
+        return {'avgPM25': [avgPM25,'STATION Avg PM2.5', (f'Average of PM2.5 from {staNum} NHBP Sensors')], 'avgAQI':[avgAQI,'STATION Avg AQI',(f'Average Air Quality Index from {staNum} NHBP Sensors')]}
+    
     sum = getSummary(liveStations['features'])
-    # avgPM25, avgAQI, timeMin, staNotSeen = sum[0], sum[1], sum[2], sum[3]
     stationData = Stations.objects.all()
     stationCount = Stations.objects.all().count()
     return {'liveStationsCP': liveStations, 'stationDataCP': stationData, 'stationCountCP': stationCount, 'sumCP':sum}

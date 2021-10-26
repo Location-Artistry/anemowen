@@ -1,5 +1,5 @@
 {% extends 'base_members.html' %}
-{% block title %}Register{% endblock %}
+{% block title %}Login{% endblock %}
 {% block content %}
 
 <h1>Add NHBP Air Quality Station</h1>
@@ -8,7 +8,7 @@
         <form method="POST">
         {% csrf_token %}
         {{ form.as_p }}
-        <button class="btn btn-primary">REGISTER</button>
+        <button class="btn btn-primary">LOGIN</button>
            
 </div>
 
