@@ -132,7 +132,7 @@
                   <a class="nav-link" href="{% url 'logout' %}">Logout</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="{% url 'register' %}">MySensor</a>
+                  <a class="nav-link" href="{% url 'user-edit' %}">MySensor</a>
                 </li>
                 <li class="nav-item">
                   <a class="nav-link" href="#">AirShare</a>
@@ -158,7 +158,7 @@
           </div>
         </div>
       </nav>  
-    <div id="container" class="position-relative overflow-hidden text-center" style="height:100vh; background: linear-gradient(rgb(95, 195, 245,.4), rgb(95, 120, 245,.4), rgb(145, 95, 245,.4), rgba(220, 95, 245, 0.4));">
+    <div id="container" class="position-relative overflow-hidden " style="height:100vh; background: linear-gradient(rgb(95, 195, 245,.4), rgb(95, 120, 245,.4), rgb(145, 95, 245,.4), rgba(220, 95, 245, 0.4));">
       {% block content %}
 
       {% endblock %}
